@@ -1,0 +1,99 @@
+<html>
+<head>
+<script language=javascript>
+	function validate()
+	{
+		if (document.login.email.value == "")
+		{
+			alert("Please enter your email address");
+			document.login.email.focus();
+			return false;
+		}
+		else if (document.login.pass.value== "")
+		{
+			alert("Please enter your password");
+			document.login.pass.focus();
+			return false;
+		}
+		return true;
+	}
+</script>
+<title>Pick 'Em</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<table border=0 cellspacing=1 cellpadding=2 align=center>
+	<tr>
+		<td align=center width=60%>
+			<center><font size=+2>Welcome to the ultimate pickem challenge!</font><br>
+			(Losers need not apply)
+			</center>
+			<form action="checklogin.asp" method=post name=login onsubmit="return validate()">
+			<table align="center" border=0 cellspacing=1 cellpadding=6 style="border: 1px solid blue">
+				<tr><td align=center><table align=center>
+				<tr>
+					<td colspan=2 align=center>
+						Login to make your pics or <a href="register.asp">Register</a>
+					</td>
+				</tr>
+				<tr>
+					<td align=right>Email:&nbsp;</td>
+					<td align=left><input type=text name=email></td>
+				</tr>
+				<tr>
+					<td align=right>Password:&nbsp;</td>
+					<td align=left><input type=password name=pass></td>
+				</tr>
+				<tr>
+					<td colspan=2 align=center>
+						<input type=submit value="Make your picks.">
+					</td>
+				</tr></table></td></tr>
+			</table>
+			</form>
+		</td>
+		<td align=center>
+			<table  align="center" border=0 cellspacing=1 cellpadding=6 width=165 style="border: 1px solid blue">
+				<caption><b>Week 1 Results</b></caption>
+				<tr><td align=center><table align=center>
+				<tr>
+					<td align="center">
+						... pending
+					<br><br><br>
+					</td>
+				</tr></table></td></tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td align=center colspan=2>
+			<br><hr>
+			Picks must be made by Friday at NOON CST.<br>
+			An Excel spreadsheet will be available for download shortly after the deadline detailing everyone's picks.<br>
+			Another spreadsheet will be available for download Monday morning detailing the results.
+			<hr>
+		</td>
+	</tr>
+	<tr>
+		<td align=center colspan=2>
+			<br>
+			<table  align="center" border=0 cellspacing=1 cellpadding=6 width=75% style="border: 1px solid blue">
+				<tr><td align=center><table align=center>
+				<tr>
+					<td align="left">
+					<u><b><font size=+1 color=green>$$$Prize Info$$$</font></b></u><br
+					><b>Weekly Entry Fee:</b>&nbsp;&nbsp;$5<br>
+					<b>Weekly Prize:</b>&nbsp;&nbsp;Half of weekly pot<br>
+					<b>Season Long Prize:</b><br>Half of total weekly pot split between top 3 (%60 - %30 - 10%)<br>
+					<br><br><br>
+					</td>
+				</tr></table></td></tr>
+			</table><br><br>
+			Questions?  Email me at <a href="mailto:mrhoden@igtm.com">mrhoden@igtm.com</a><hr>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

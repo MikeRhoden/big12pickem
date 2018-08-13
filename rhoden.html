@@ -1,0 +1,308 @@
+<html>
+<head>
+<style type=text/css>
+a {color:#0099CC;font-size:12px;font-weight:bold}
+a:hover {color:#FF6666}
+select {background-color:#0099CC; color:#ffffff; font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif}
+option {background-color:#ffffff; color:#0099CC; font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif}
+.game_no {font-family:Verdana, Arial, Helvetica, sans-serif;font-weight:bold; font-size:14px}
+.visitor {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; white-space:nowrap}
+.home {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; font-weight:bold; white-space:nowrap}
+.line {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; color:#0099CC}
+.manopt {background-color:#ffffff; color:#0099CC; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:16px; font-weight:bold; border: 1px solid #000000; white-space:nowrap}
+th {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:13px; font-weight:bold; white-space:nowrap}
+body {font-family:Verdana, Arial, Helvetica, sans-serif}
+.week {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:16px; font-weight:bold}
+.warning {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#FF6666}
+.remaining {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#0099CC}
+a.clear {font-size:8px}
+.value_vis {border: 1px solid #666666; background-color:#0099CC; color:#ffffff; font-size:9px; font-weight:bold}
+.value_ho {border: 1px solid #666666; background-color:#FF6666; color:#ffffff; font-size:9px; font-weight:bold}
+.vis_grid {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; color:#0099CC; font-weight:bold}
+.ho_grid {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; color:#FF6666; font-weight:bold}
+.name_grid {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; font-weight:bold; white-space:nowrap}
+.results {font-size:10px}
+.value_total_pos {border: 1px solid #666666; background-color:#00CC66; color:#000000; font-size:9px; font-weight:bold}
+.value_total_neg {border: 1px solid #666666; background-color:#FFFF99; color:#000000; font-size:9px; font-weight:bold}
+.value_total_evn {border: 1px solid #666666; background-color:#ffffff; color:#000000; font-size:9px; font-weight:bold}
+.correct {text-decoration:underline}
+.incorrect {text-decoration:line-through}
+</style>
+
+<script language="javascript">
+	var max_credits = 450;
+	function calcCredits() {
+		var wagered = 0;
+		for (var i=1;i<=30;i++)
+			wagered += Number(document.games["val_" + i].value);
+		var remaining = max_credits - wagered;
+		document.games.credits.value = remaining;
+	}
+	function verify(frm) {
+		for (var i=1; i<=30; i++)  {
+			if ((frm["game_"+i][0].  || frm["game_"+i][1]. ) && (frm["val_" + i].value == 0)) {
+				alert("Please make a wager for game " + i + ".");
+				return false;
+			}
+		}
+		for (var i=1; i<=30; i++)  {
+			if (!(frm["game_"+i][0].  || frm["game_"+i][1]. ) && (frm["val_" + i].value != 0)) {
+				alert("Please make a selection for game " + i + ".");
+				return false;
+			}
+		}
+		if (Number(frm.credits.value < 0)) {
+			alert("You have wagered more than " + max_credits + ".  Adjust your wagers");
+			frm["val_1"].focus();
+			return false;
+		} else if (Number(frm.credits.value > 0)) {
+			alert("You still have " + frm.credits.value + " credits remaining.");
+			//frm["val_1"].focus();
+			//return false;
+		} else if (Number(frm.credits.value > 0)) 
+		
+		return true;
+	}
+	function clearGame(num) {
+		document.games["val_" + num].value = 5;
+		document.games["game_" + num][0].  = false;
+		document.games["game_" + num][1].  = false;
+		calcCredits();
+	}
+</script>
+<title>Pick Games</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+	.bowl {font-size:10px; font-weight:bold; font-family:Verdana, Arial, Helvetica, sans-serif}
+	.date {color:#cc0000}
+</style>
+<body bgcolor="#FFFFFF">
+
+
+<form name="games" method=post action="postbowlgames_2006.asp?uid=00027" onSubmit="return verify(this)">
+<input type="hidden" name="week" value="14">
+<table border=0 cellpadding=3 cellspacing=0 align=center width=480>
+
+	<tr><td colspan="4" align="center" class="manopt">Bowl Games</td></tr>
+
+  <tr><td align=right valign=top><table border=1 cellpadding=3 cellspacing=0 align=right>
+	<tr>
+		<th align=center>&nbsp;</th>
+		<th>Matchup</th>
+		<th align=center>&nbsp;</th>
+	</tr>
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>1</td>
+
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>New Orleans Bowl</td><td align='right' class='date'>DEC 22</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_1' value='RICE'  ><span class='visitor'>Rice</span><BR><input type='checkbox' name='game_1' value='TROY'><span class='home'>Troy</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(1);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>2</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Papajohns.com Bowl</td><td align='right' class='date'>DEC 23</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_2' value='USF'><span class='visitor'>South Florida</span><BR><input type='checkbox' name='game_2' value='ECU'  ><span class='home'>East Carolina</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(2);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>3</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>New Mexico Bowl</td><td align='right' class='date'>DEC 23</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_3' value='UNM'  ><span class='visitor'>New Mexico</span><BR><input type='checkbox' name='game_3' value='SJSU'><span class='home'>San Jose St</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(3);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>4</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Armed Forces Bowl</td><td align='right' class='date'>DEC 23</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_4' value='TUL'><span class='visitor'>Tulsa</span><BR><input type='checkbox' name='game_4' value='UTAH'  ><span class='home'>Utah</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(4);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>5</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Hawaii Bowl</td><td align='right' class='date'>DEC 24</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_5' value='ASU'  ><span class='visitor'>Arizona St</span><BR><input type='checkbox' name='game_5' value='HAW'><span class='home'>Hawaii</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(5);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>6</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Motor City Bowl</td><td align='right' class='date'>DEC 26</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_6' value='MTSU'><span class='visitor'>Middle Tennessee St</span><BR><input type='checkbox' name='game_6' value='CMU'  ><span class='home'>Central Michigan</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(6);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>7</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Emerald Bowl</td><td align='right' class='date'>DEC 27</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_7' value='FSU'  ><span class='visitor'>Florida St</span><BR><input type='checkbox' name='game_7' value='UCLA'><span class='home'>UCLA</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(7);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>8</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Independence Bowl</td><td align='right' class='date'>DEC 28</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_8' value='OKSU'><span class='visitor'>Oklahoma St</span><BR><input type='checkbox' name='game_8' value='BAMA'  ><span class='home'>Alabama</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(8);' class='clear'></a></td>
+</tr>
+
+
+	</table></td>
+	
+	<td align=left valign=top><table border=1 cellpadding=3 cellspacing=0>
+	<tr>
+		<th align=center>&nbsp;</th>
+		<th>Matchup </th>
+		<th align=center>&nbsp;</th>
+	</tr>
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>9</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Holiday Bowl</td><td align='right' class='date'>DEC 28</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_9' value='CAL'  ><span class='visitor'>California</span><BR><input type='checkbox' name='game_9' value='A&M'><span class='home'>Texas A&M</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(9);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>10</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Texas Bowl</td><td align='right' class='date'>DEC 28</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_10' value='RUT'><span class='visitor'>Rutgers</span><BR><input type='checkbox' name='game_10' value='KSU'  ><span class='home'>Kansas St</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(10);' class='clear'></a></td>
+</tr>
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>11</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Music City Bowl</td><td align='right' class='date'>DEC 29</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_11' value='CLEM'  ><span class='visitor'>Clemson</span><BR><input type='checkbox' name='game_11' value='KENT'><span class='home'>Kentucky</span></td>
+<td align='center' valign='middle'><br><img src='../gtm/images/spacer.gif' width='1' height='3'><br></td></tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>12</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Sun Bowl</td><td align='right' class='date'>DEC 29</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_12' value='ORST'><span class='visitor'>Oregon St</span><BR><input type='checkbox' name='game_12' value='MIZ'  ><span class='home'>Missouri</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(12);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>13</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Liberty Bowl</td><td align='right' class='date'>DEC 29</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_13' value='HOU'  ><span class='visitor'>Houston</span><BR><input type='checkbox' name='game_13' value='SCAR'><span class='home'>South Carolina</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(13);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>14</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Insight Bowl</td><td align='right' class='date'>DEC 29</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_14' value='TTK'><span class='visitor'>Texas Tech</span><BR><input type='checkbox' name='game_14' value='MINN'  ><span class='home'>Minnesota</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(14);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>15</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Champs Sports Bowl</td><td align='right' class='date'>DEC 29</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_15' value='PUR'  ><span class='visitor'>Purdue</span><BR><input type='checkbox' name='game_15' value='UMD'><span class='home'>Maryland</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(15);' class='clear'></a></td>
+</tr>
+
+
+	</table></td>
+	
+	<td align=right valign=top><table border=1 cellpadding=3 cellspacing=0 align=right>
+	<tr>
+		<th align=center>&nbsp;</th>
+		<th>Matchup</th>
+		<th align=center>&nbsp;</th>
+	</tr>
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>16</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Car Care Bowl</td><td align='right' class='date'>DEC 30</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_16' value='NAVY'><span class='visitor'>Navy</span><BR><input type='checkbox' name='game_16' value='BC'  ><span class='home'>Boston College</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(16);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>17</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Alamo Bowl</td><td align='right' class='date'>DEC 30</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_17' value='TEX'  ><span class='visitor'>Texas</span><BR><input type='checkbox' name='game_17' value='IOWA'><span class='home'>Iowa</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(17);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>18</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Chick-fil-a Bowl</td><td align='right' class='date'>DEC 30</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_18' value='UGA'><span class='visitor'>Georgia</span><BR><input type='checkbox' name='game_18' value='VTK'  ><span class='home'>Virginia Tech</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(18);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>19</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>MPC Computers Bowl</td><td align='right' class='date'>DEC 31</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_19' value='MIA'  ><span class='visitor'>Miami</span><BR><input type='checkbox' name='game_19' value='NEV'><span class='home'>Nevada</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(19);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>20</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Outback Bowl</td><td align='right' class='date'>JAN 1</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_20' value='TEN'><span class='visitor'>Tennessee</span><BR><input type='checkbox' name='game_20' value='PSU'  ><span class='home'>Penn St</span></td>
+<td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(20);' class='clear'></a></td>
+</tr>
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>21</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Cotton Bowl</td><td align='right' class='date'>JAN 1</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_21' value='AUB'  ><span class='visitor'>Auburn</span><BR><input type='checkbox' name='game_21' value='NUB'><span class='home'>Nebraska</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(21);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>22</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Gator Bowl</td><td align='right' class='date'>JAN 1</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_22' value='WVA'><span class='visitor'>West Virginia</span><BR><input type='checkbox' name='game_22' value='GTK'  ><span class='home'>Georgia Tech</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(22);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>23</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Capital One Bowl</td><td align='right' class='date'>JAN 1</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_23' value='ARK'  ><span class='visitor'>Arkansas</span><BR><input type='checkbox' name='game_23' value='WIS'><span class='home'>Wisconsin</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(23);' class='clear'></a></td>
+</tr>
+
+
+	</table></td>
+	
+	<td align=right valign=top><table border=1 cellpadding=3 cellspacing=0 align=right>
+	<tr>
+		<th align=center>&nbsp;</th>
+		<th>Matchup</th>
+		<th align=center>&nbsp;</th>
+	</tr>
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>24</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Rose Bowl</td><td align='right' class='date'>JAN 1</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_24' value='USC'><span class='visitor'>Southern Cal</span><BR><input type='checkbox' name='game_24' value='MICH'  ><span class='home'>Michigan</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(24);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>25</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Fiesta Bowl</td><td align='right' class='date'>JAN 1</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_25' value='BSU'  ><span class='visitor'>Boise St</span><BR><input type='checkbox' name='game_25' value='OU'><span class='home'>Oklahoma</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(25);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>26</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Orange Bowl</td><td align='right' class='date'>JAN 2</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_26' value='LOU'><span class='visitor'>Louisville</span><BR><input type='checkbox' name='game_26' value='WAKE'  ><span class='home'>Wake Forest</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(26);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>27</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>Sugar Bowl</td><td align='right' class='date'>JAN 3</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_27' value='ND'  ><span class='visitor'>Notre Dame</span><BR><input type='checkbox' name='game_27' value='LSU'><span class='home'>Louisiana St</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(27);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>28</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>International Bowl</td><td align='right' class='date'>JAN 6</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_28' value='CIN'><span class='visitor'>Cincinatti</span><BR><input type='checkbox' name='game_28' value='WMU'  ><span class='home'>Western Michigan</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(28);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>29</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>GMAC Bowl</td><td align='right' class='date'>JAN 7</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_29' value='OHIO'  ><span class='visitor'>Ohio</span><BR><input type='checkbox' name='game_29' value='USM'><span class='home'>Southern Miss</span></td>
+   <td align='center' valign='middle'><br>
+   <img src='../gtm/images/spacer.gif' width='1' height='3'><br><a href='javascript:clearGame(29);' class='clear'></a></td>
+</tr>
+
+<tr><td align='center' valign='middle' class='game_no' rowspan='2'>30</td>
+<td colspan='2' align='left'><table width='100%' cellpadding='0' border='0' cellspacing='0' class='bowl' ><tr><td align='left'>BCS Championship</td><td align='right' class='date'>JAN 8</td></tr></table></td></tr><tr><td align='left' valign='top'><input type='checkbox' name='game_30' value='FLA'><span class='visitor'>Florida</span><BR><input type='checkbox' name='game_30' value='OHSU'  ><span class='home'>Ohio St</span></td>
+   <td align='center' valign='middle'><br>
+   <br>
+   <a href='javascript:clearGame(30);' class='clear'></a></td>
+	
+</tr>
+
+	</table></td>	</tr>
+	<tr>
+	  <td colspan="8" align="center">&nbsp;</td>
+	</tr>
+</table>
+</form>
+
+</body>
+</html>
