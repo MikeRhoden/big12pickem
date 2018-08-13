@@ -73,56 +73,6 @@ end function
 		</td>
 	</tr>
 
-	<!-- 2018 -->
-   	<tr><td colspan="2"><font size="+3"><b>2018 Results</b></font></td></tr>
-	<tr><td colspan="2"><table width="100%"><tr>
-	  <td width="33%" align=center valign="top">
-			<table border="1" cellpadding="3" cellspacing="0" class="results">
-				<tr><th width="40">Week</th><th width="98">Winners</th><th width="44">View</th></tr>
-				<% 
-				dim currentWeek
-				for currentWeek = 1 to 7
- 					if pastDeadlineForWeek(currentWeek) then%>	
-					<tr>
-						<td valign="top"><%=currentWeek%></td>
-						<td valign="top"></td>
-						<td align="center" valign="top"><a href="results_grid_2018.asp?w=<%=currentWeek%>1&t=1">Results</a></td>
-					</tr>		
-					<%end if%>
-				<%
-				next
-				%>
-			</table>
-		</td>
-		<td width="33%" align=center valign="top">
-			<%if pastDeadlineForWeek(8) then%>
-			<table border="1" cellpadding="3" cellspacing="0" class="results">
-				<tr><th width="40">Week</th><th width="98">Winners</th><th width="44">View</th></tr>
-				for currentWeek = 8 to 14
- 					if pastDeadlineForWeek(currentWeek) then%>	
-					<tr>
-						<td valign="top"><%=currentWeek%></td>
-						<td valign="top"></td>
-						<td align="center" valign="top"><a href="results_grid_2018.asp?w=<%=currentWeek%>1&t=1">Results</a></td>
-					</tr>		
-					<%end if%>
-				<%
-				next
-				%>
-			</table>
-			<%end if%>
-		</td>
-		<td>
-			<table border="1" cellpadding="3" cellspacing="0" class="results"><tr><th>Name</th><th>Mandatory<br>Correct</th><th>Average<br>Score</th><th>Weeks<br>Played</th><th>Last Week<br />Played</th</tr>
-<%
-	
-	totalResults=qryTotalsV2("2018")
-	for tLoop=0 to ubound(totalResults) - 1
-		set tObj=totalResults(tLoop)
-%>
-	<tr class="total-results"><td style="white-space:nowrap"><%=tObj("lname")%>, <%=left(tObj("fname"),1)%></td><td><%=tObj("mandatoryCorrect")%></td><td><%=round(round(tObj("average"),2))%></td><td><%=tObj("weeksPlayed")%></td><td><%=tObj("lastWeekPlayed")%></td><!--<td><%=tObj("total")%></td><td><%=round(tObj("average"),2)%></td>--></tr>
-
-	<!-- 2017 -->
 
 	<tr><td colspan="2"><font size="+3"><b>2017 Results</b></font><!--<div style="float:right"><font size="+1"><b><a href="rg13.asp">2012-13 Bowl Results</a></b></font></div>--></td></tr>
 
@@ -135,91 +85,67 @@ end function
 					<td valign="top">1. Domenico, 2. Eddie</td>
 					   <td align="center" valign="top"><a href="results_grid_2017.asp?w=2&t=1">Results</a></td>
 				</tr>		
-				<% if pastDeadlineForWeek(3) then%>	
 				<tr>
 					<td valign="top">2</td>
 					<td valign="top">1. Maltibe, 2. Darling</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=3&t=1">Results</a></td>
 				</tr>
-				<%end if%>
-				<% if pastDeadlineForWeek(4) then%>	
 				<tr>
 					<td valign="top">3</td>
 					<td valign="top">1. Leay & Strawny </td>
 					   <td align="center" valign="top"><a href="results_grid_2017.asp?w=4">Results</a></td>
 				</tr>
-				<%end if%>
-				<% if pastDeadlineForWeek(5) then%>	
 				<tr>
 					<td valign="top">4</td>
 					<td valign="top">1. Lewison & Strawny </td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=5">Results</a></td>
 				</tr>
-            	<%end if %>
-				<%if pastDeadlineForWeek(6) then%>
 				<tr>
 					<td valign="top">5</td>
 					<td valign="top">1. Mallot<BR>2. Morgan, Bob</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=6">Results</a></td>
 				</tr>
-				<%end if%>
-				<%if pastDeadlineForWeek(7) then%>
 				<tr>
 					<td valign="top">6</td>
 					<td valign="top">1. Leay<BR>2. Hurt, Tamamsi</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=7">Results</a></td>
 				</tr>
-				<%end if%>
-				<%if pastDeadlineForWeek(8) then%>
 				<tr>
 					<td valign="top">7</td>
 					<td valign="top">1. Leay<BR>2. Domenico</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=8">Results</a></td>
 				</tr>
-				<%end if%>
 			</table>
 		</td>
 		<td width="33%" align=center valign="top">
-			<%if now()>cdate("11/4/2017 10:59:59 AM") then%>
 			<table border="1" cellpadding="3" cellspacing="0" class="results">
 				<tr><th width="40">Week</th><th width="98">Winners</th><th width="44">View</th></tr>
-				<%if pastDeadlineForWeek(9) then%>
 				<tr>
 					<td valign="top">8</td>
 					<td valign="top">1. Strawny<BR>2. Lewison</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=9">Results</a></td>
 				</tr>
-				<%end if%>
-				<%if pastDeadlineForWeek(10) then%>
 				<tr>
 					<td valign="top">9</td>
 					<td valign="top">1. Leay<BR>2. Domenico</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=10">Results</a></td>
 				</tr>
-				<%end if%>
-				<%if pastDeadlineForWeek(11) then%>
 				<tr>
 					<td valign="top">10</td>
 					<td valign="top">1. 4 way tie<br>Lewison, May<BR>Mallot, Strawn  </td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=11">Results</a></td>
 				</tr>
-				<%end if%>
-				<%if pastDeadlineForWeek(12)then%>
 				<tr>
 					<td valign="top">11</td>
 					<td valign="top">1. Tamasi<br>2. Maltbie</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=12">Results</a></td>
 				</tr>
-				<%end if%>
-				<%if pastDeadlineForWeek(13) then%>
 				<tr>
 					<td valign="top">12</td>
 					<td valign="top">1. Maltbie<br>2. Bob, Michelle</td>
 			  	 	<td align="center" valign="top"><a href="results_grid_2017.asp?w=13">Results</a></td>
 				</tr>
-				<%end if%>
 			</table>
-			<%end if%>
 		</td>
 		<td>
 			<table border="1" cellpadding="3" cellspacing="0" class="results"><tr><th>Name</th><th>Mandatory<br>Correct</th><th>Average<br>Score</th><th>Weeks<br>Played</th><th>Last Week<br />Played</th</tr>
