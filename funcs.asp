@@ -320,7 +320,7 @@ function qryMaxWeek(yr)
 end function
 Function getEndTime()
 	dim maxWeek,yr
-	yr="2017"
+	yr="2018"
 	maxWeek=qryMaxWeek(yr)
 	dim rs,sql,params(2)
 	params(0)=yr
