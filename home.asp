@@ -73,8 +73,25 @@ end function
 		</td>
 	</tr>
 
+	<tr><td colspan="2"><font size="+3"><b>2018 Results</b></font></td></tr>
+	<tr><td colspan="2"><table width="100%"><tr>
+	  <td width="33%" align=center valign="top">
+			<table border="1" cellpadding="3" cellspacing="0" class="results">
+				<tr><th width="40">Week</th><th width="98">Winners</th><th width="44">View</th></tr>
+					<td valign="top">1</td>
+					<td valign="top"></td>
+					   <td align="center" valign="top"><a href="results_grid_2018.asp?w=2&t=1">Results</a></td>
+				</tr>		
+			</table>
+		</td>
+		<td width="33%" align=center valign="top">
+		</td>
+		<td>
+		</td>
+	</tr></table></td></tr>
 
-	<tr><td colspan="2"><font size="+3"><b>2017 Results</b></font><!--<div style="float:right"><font size="+1"><b><a href="rg13.asp">2012-13 Bowl Results</a></b></font></div>--></td></tr>
+
+	<tr><td colspan="2"><font size="+3"><b>2017 Results</b></font></td></tr>
 
 	<tr><td colspan="2"><table width="100%"><tr>
 	  <td width="33%" align=center valign="top">
