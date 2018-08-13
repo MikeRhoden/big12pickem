@@ -1,0 +1,44 @@
+/* Modifications and Version Control
+  ###--- Date ------- Name --------------------- Description -------------------------------------------------
+  000    2004-12-14   Aaron Sloup                Baseline version: based on /html/style.css 
+  -- End of Modification and Version Control Block */
+
+/* CSS Document */
+<style type="text/css">
+<!-- 
+
+a.link_under {color:#000000; text-decoration:underline; font-size:12px; font-weight:normal}
+a.link_under:hover {color:#000000; text-decoration:none; font-size:12px; font-weight:normal}
+.link_under {color:#000000; text-decoration:underline; font-size:12px; font-weight:normal}
+
+a.link_under_header {color:#FFFFFF; text-decoration:underline; font-size:12px; font-weight:normal}
+a.link_under_header:hover {color:#FFFFFF; text-decoration:none; font-size:12px; font-weight:normal}
+.link_under_header {color:#FFFFFF; text-decoration:underline; font-size:12px; font-weight:normal}
+
+a.link {color:#6699CC; text-decoration:none; font-size:14px}
+a.link:hover {color:#CCCCCC; text-decoration:none; font-size:14px}
+.link {color:#6699CC; text-decoration:none; font-size:14px}
+
+a.link_header {color:#FFFFFF; text-decoration:none; font-size:12px}
+a.link_header:hover {color:#CCCCCC; text-decoration:none; font-size:12px}
+.link_header {color:#FFFFFF; text-decoration:none; font-size:12px}
+
+a.link_header_big {color:#FFFFFF; text-decoration:none; font-size:18px}
+a.link_header_big:hover {color:#CCCCCC; text-decoration:none; font-size:18px}
+.link_header_big {color:#FFFFFF; text-decoration:none; font-size:18px}
+
+.table_border {border: #6699CC 2px solid; background-color:#ffffff}
+.table_header {background-color:#6699CC; font-size:18px; color:#FFFFFF; padding:2px}
+.table_header_big {background-color:#6699CC; font-size:20px; color:#FFFFFF; padding:2px}
+.table_header_smaller {background-color:#6699CC; font-size:12px; color:#FFFFFF; padding:2px}
+.table_cells {color:#000000; background-color:#FFFFFF; font-size:14px; padding:4px}
+.table_cells_smaller {color:#000000; background-color:#FFFFFF; font-size:12px; padding:4px}
+.table_cells_error {color:#FF0000; background-color:#FFFFFF; font-size:12px; padding:4px}
+
+.small_data {color:#000000; font-weight:bold; font-size:12px}
+.small_data_red {color:#cc0000; font-weight:bold; font-size:12px}
+.small_text {color:#000000; font-size:12px}
+.strong_black {color:#000000; font-weight:bold}
+-->
+</style>
+

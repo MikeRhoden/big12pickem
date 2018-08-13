@@ -1,0 +1,566 @@
+<style type=text/css>
+a {color:#0099CC;font-size:12px;font-weight:bold}
+a:hover {color:#FF6666}
+select {background-color:#0099CC; color:#ffffff; font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif}
+option {background-color:#ffffff; color:#0099CC; font-size:9px; font-family:Verdana, Arial, Helvetica, sans-serif}
+.game_no {font-family:Verdana, Arial, Helvetica, sans-serif;font-weight:bold; font-size:14px}
+.visitor {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px}
+.home {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; font-weight:bold}
+.line {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:9px; color:#0099CC}
+.manopt {background-color:#ffffff; color:#0099CC; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:16px; font-weight:bold; border: 1px solid #000000}
+th {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:13px; font-weight:bold; white-space:nowrap}
+body {font-family:Verdana, Arial, Helvetica, sans-serif}
+.week {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:16px; font-weight:bold}
+.warning {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#FF6666}
+.remaining {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#0099CC}
+a.clear {font-size:8px}
+</style>
+<%
+	Function ReturnEmailsCSV()
+		Dim SQL, rs, i, t
+		Connect
+		SQL = "Select Email_Address From pkmUsers"
+		Set rs = Server.CreateObject("ADODB.Recordset")
+		rs.ActiveConnection = cnPick
+		rs.LockType = 1
+		rs.CursorLocation = 3
+		rs.CursorType = 0
+		rs.Open SQL
+		t = ""
+		For i = 1 to rs.RecordCount
+			If rs.Fields(0).Value <> "favorite" AND rs.Fields(0).Value <> "underdog" Then
+				t = t & rs.Fields(0).Value
+				If i <> rs.RecordCount Then
+					t = t & ","
+				End If
+			End If
+			rs.MoveNext
+		Next
+		t = t & "<P>" & rs.RecordCount & "</P>"
+		rs.Close
+		Set rs.ActiveConnection = Nothing
+		set rs = nothing
+		Disconnect
+		ReturnEmailsCSV = t
+	End Function
+%>
+<%
+	Private Sub Connect()
+		CS = "Provider=SQLOleDB.1; Data Source=gtm-sql1;Initial Catalog=gtmspocom_db;User ID=mrhoden;Password=firehitsites"
+		Set cnPick = Server.CreateObject("ADODB.Connection")
+		cnPick.ConnectionString = CS
+		cnPick.Open
+	End Sub
+	
+	Private Sub Disconnect()
+		cnPick.Close
+		Set cnPick = Nothing
+	End Sub
+
+	Private Function GetFirstName(uid)
+		Dim rsName, SQL
+		Set rsName = Server.CreateObject("ADODB.Recordset")
+		rsName.ActiveConnection = cnPick
+		rsName.LockType = 1
+		rsName.CursorLocation = 3
+		rsName.CursorType = 0
+		SQL = "Select First_Name From pkmUsers Where UID = '" & uid & "'"
+		rsName.Open SQL
+		
+		GetFirstName = rsName.Fields(0).Value
+		rsName.Close
+		Set rsName.ActiveConnection = Nothing
+		Set rsName = Nothing
+	End Function
+	
+	Private Function CheckLogin(email,password)
+		Dim rsLogin, SQL
+		SQL = "Select Password, UID From pkmUsers Where Email_Address = '" & email & "'"
+		Set rsLogin = Server.CreateObject("ADODB.Recordset")
+		rsLogin.ActiveConnection = cnPick
+		rsLogin.LockType = 1
+		rsLogin.CursorLocation = 3
+		rsLogin.CursorType = 0
+		rsLogin.Open SQL
+		If rsLogin.RecordCount > 0 Then
+			If rsLogin.Fields("Password") = password Then
+				CheckLogin = rsLogin.Fields("UID")
+			Else
+				CheckLogin = "00000"
+			End If
+		Else
+			CheckLogin = "99999"
+		End If
+		rsLogin.Close
+		Set rsLogin.ActiveConnection = Nothing
+		Set rsLogin = Nothing
+	End Function
+%>
+<%
+	Function CreateUserID()
+		Dim objMemberInfo, objFile, tempID, tempNum, IDLength, Zeros, newID
+
+		Set objMemberInfo = CreateObject("Scripting.FileSystemObject")
+		Set objFile = objMemberInfo.OpenTextFile("f:\hshome\itsgree0\gtmsportswear.com\pickem\userid.txt",1)
+	
+		tempID = objFile.Readline
+		objFile.close
+		tempNum = CLng(tempID)
+		tempNum = tempNum + 1
+		IDLength = len(tempNum)
+		Zeros = String(5 - IDLength,"0")
+		newID = Zeros & tempNum
+		CreateUserID = newID
+		
+		Set objFile = Nothing
+		Set objFile = objMemberInfo.OpenTextFile("f:\hshome\itsgree0\gtmsportswear.com\pickem\userid.txt",2)
+		objFile.Writeline(tempNum)
+		objFile.Close
+		Set objFile = Nothing
+		Set objMemberInfo = Nothing	
+	End Function
+%>
+<%
+	Private Sub InsertUser(password, First_Name, Last_Name, email, uid)
+		Dim cdUser, SQL
+		Set cdUser = Server.CreateObject("ADODB.Command")
+		cdUser.ActiveConnection = cnPick
+		cdUser.CommandType = 1
+		cdUser.CommandText = "Insert into pkmUsers Values('" & password & "','" & First_Name & "','" & Last_Name & "','" & _
+							email & "','" & uid & "')"
+		cdUser.Execute
+		Set cdUser.ActiveConnection = Nothing
+		Set cdUser = Nothing
+	End Sub
+%>
+<%
+	Private Function GetGames(uid)
+		Dim rsGames, SQL, Games(26), i
+
+		SQL = "Select Game, Pick From pkmPicks Where UID = '" & uid & "' Order By Game"
+		Set rsGames = Server.CreateObject("ADODB.Recordset")
+		rsGames.ActiveConnection = cnPick
+		rsGames.LockType = 1
+		rsGames.CursorLocation = 3
+		rsGames.CursorType = 0
+		rsGames.Open SQL
+		If rsGames.RecordCount > 0 Then
+			rsGames.MoveFirst
+			For i = 0 to rsGames.RecordCount - 1
+				Games(i) = rsGames.Fields("Pick").value
+				rsGames.MoveNext
+			Next
+		Else
+			Games(0) = "0"
+		End If
+		rsGames.Close
+		Set rsGames.ActiveConnection = Nothing
+		Set rsGames = Nothing
+
+		GetGames = Games
+
+	End Function
+%>
+<%
+	Private Function GetWeights(uid)
+		Dim rsGames, SQL, Games(26), i
+
+		SQL = "Select Game, Weight From pkmPicks Where UID = '" & uid & "' Order By Game"
+		Set rsGames = Server.CreateObject("ADODB.Recordset")
+		rsGames.ActiveConnection = cnPick
+		rsGames.LockType = 1
+		rsGames.CursorLocation = 3
+		rsGames.CursorType = 0
+		rsGames.Open SQL
+		If rsGames.RecordCount > 0 Then
+			rsGames.MoveFirst
+			For i = 0 to rsGames.RecordCount - 1
+				Games(i) = Cint(rsGames.Fields(1).value)
+				rsGames.MoveNext
+			Next
+		Else
+			Games(0) = 0
+		End If
+		rsGames.Close
+		Set rsGames.ActiveConnection = Nothing
+		Set rsGames = Nothing
+
+		GetWeights = Games
+
+	End Function
+%>
+<% 	Private Function CheckTime()
+		StartTime = Now
+		'StartTime = "8/29/2003 11:05:00 AM"
+		EndTime = "09/09/2004 4:59:59 PM"
+		StartMonth = Month(StartTime)
+		StartDay = Day(StartTime)
+		EndMonth = Month(EndTime)
+		EndDay = Day(EndTime)
+		If StartMonth < EndMonth Then
+			CheckTime = True
+		ElseIf StartMonth > EndMonth Then
+			CheckTime = False
+		ElseIf StartDay < EndDay Then
+			CheckTime = True
+		ElseIf StartDay > EndDay Then
+			CheckTime = False
+		ElseIf CallTimeSeconds(StartTime,EndTime) > 0 Then
+			CheckTime = True
+		Else
+			CheckTime = False
+		End If				
+	End Function
+%>
+<%
+	Private Function CallTimeSeconds(StartTime,EndTime)
+
+
+		StartHour = Hour(StartTime)
+		StartMin =  Minute(StartTime)
+		StartSec = Second(StartTime)
+		EndHour = Hour(EndTime)
+		EndMin = Minute(EndTime)
+		EndSec = Second(EndTime)
+		StartingSeconds = (StartSec + (StartMin * 60) + ((StartHour * 60)*60))
+		EndingSeconds = (EndSec + (EndMin * 60) + ((EndHour * 60)*60))
+		CallTimeSeconds = EndingSeconds - StartingSeconds
+	End Function
+%>
+<%
+	Private Sub DeletePicks(uid)
+		Dim cdDel
+		Set cdDel = Server.CreateObject("ADODB.Command")
+		cdDel.ActiveConnection = cnPick
+		cdDel.CommandType = 1
+		cdDel.CommandText = "Delete From pkmPicks Where UID = '" & uid & "'"
+		cdDel.Execute
+		Set cdDel.ActiveConnection = Nothing
+		Set cdDel = Nothing
+	End Sub
+
+	Private Sub InsertPicks(uid,Picks,Values, week)
+		Dim cdDel, i
+		Set cdDel = Server.CreateObject("ADODB.Command")
+		cdDel.ActiveConnection = cnPick
+		cdDel.CommandType = 1
+
+		For i = 0 to (UBound(Picks) - 1)
+			cdDel.CommandText = "Insert into pkmPicks Values('" & uid & "','" & week & "','" & (i+1) & "','" & Picks(i) & "','" & Values(i) & "')"
+			cdDel.Execute
+		Next
+		Set cdDel.ActiveConnection = Nothing
+		Set cdDel = Nothing
+	End Sub
+%>	
+<%
+	Private Sub WritePicks()
+		Dim objMemberInfo, objFile, tempLine
+		Dim rsPicks, SQL, Users, i, Picks(), Weights(), TempPicks(26), TempWeights(26)
+
+		Users = GetAllUsers()
+		Redim Picks(UBound(Users))
+		'Redim Weights(UBound(Users))
+		Set rsPicks = Server.CreateObject("ADODB.Recordset")
+		rsPicks.ActiveConnection = cnPick
+		rsPicks.LockType = 1
+		rsPicks.CursorType = 0
+		rsPicks.CursorLocation = 3
+
+		Set objMemberInfo = CreateObject("Scripting.FileSystemObject")
+		Set objFile = objMemberInfo.OpenTextFile("f:\hshome\itsgree0\gtmsportswear.com\pickem\picks13.txt",2)
+
+		For i = 0 to UBound(Users) - 1
+			TempPicks(0) = GetUserFNameLName(Users(i))
+			SQL = "Select Pick From pkmPicks Where UID = '" & Users(i) & "' Order By Game"
+			rsPicks.Open SQL
+			j = 1
+			If rsPicks.RecordCount > 0 Then
+				Do While Not rsPicks.EOF
+					TempPicks(j) = rsPicks.Fields(0).Value
+					'TempWeights(j) = CInt(rsPicks.Fields(1).Value)
+					rsPicks.MoveNext
+					j = j + 1
+				Loop
+			Else
+				For j = 1 to 13
+					TempPicks(j) = "NONE"
+					'TempWeights(j) = 0
+				Next
+			End If
+			rsPicks.Close
+			Picks(i) = TempPicks
+			'Weights(i) = TempWeights
+		Next
+	
+		For j = 0 to 13
+			tempLine = ""
+			For i = 0 to UBound(Picks) - 1
+				If j = 0 then
+					tempLine = tempLine & Picks(i)(j)
+				else
+					tempLine = tempLine & Picks(i)(j)
+				end if
+				If i <> UBound(Picks) - 1 Then
+					tempLine = tempLine & ";"
+				End If
+			Next
+			objFile.Writeline(tempLine)
+		Next
+
+		objFile.Close
+		Set objFile = Nothing
+		Set objMemberInfo = Nothing
+
+		Set rsPicks.ActiveConnection = Nothing
+		Set rsPicks = Nothing
+	End Sub
+%>
+<%
+	Private Function GetAllUsers()
+		Dim rsUsers, SQL, i, Users()
+
+		Set rsUsers = Server.CreateObject("ADODB.Recordset")
+		rsUsers.ActiveConnection = cnPick
+		rsUsers.LockType = 1
+		rsUsers.CursorType = 0
+		rsUsers.CursorLocation = 3
+
+		SQL = "Select UID, Last_Name From pkmUsers Order By Last_Name"
+
+		rsUsers.Open SQL
+		Redim Users(rsUsers.RecordCount)
+
+		rsUsers.MoveFirst
+		i=0
+		Do While Not rsUsers.EOF
+			Users(i) = rsUsers.Fields(0).Value		
+			rsUsers.MoveNext
+			i = i + 1
+		Loop
+		rsUsers.Close
+		Set rsUsers.ActiveConnection = Nothing
+		Set rsUsers = Nothing
+		GetAllUsers = Users
+		
+	End Function
+%>
+<%
+	Private Function GetUserFNameLName(uid)
+		Dim rsUsers, SQL, i, Users()
+
+		Set rsUsers = Server.CreateObject("ADODB.Recordset")
+		rsUsers.ActiveConnection = cnPick
+		rsUsers.LockType = 1
+		rsUsers.CursorType = 0
+		rsUsers.CursorLocation = 3
+
+		SQL = "Select Last_Name, First_Name From pkmUsers Where UID = '" & uid & "'"
+		rsUsers.Open SQL
+		GetUserFNameLName = rsUsers.Fields(0).Value & ", " & rsUsers.Fields(1).Value
+		rsUsers.Close
+		Set rsUsers.ActiveConnection = Nothing
+		Set rsUsers = Nothing
+
+	End Function
+%>
+<%
+	Private Function GetAllEmails()
+		Dim rsEmails, SQL, i, Emails()
+
+		Set rsEmails = Server.CreateObject("ADODB.Recordset")
+		rsEmails.ActiveConnection = cnPick
+		rsEmails.LockType = 1
+		rsEmails.CursorType = 0
+		rsEmails.CursorLocation = 3
+
+		SQL = "Select Email_Address From pkmUsers Where UID <> ''"
+		rsEmails.Open SQL
+		rsEmails.MoveFirst
+		Redim Emails(rsEmails.RecordCount)
+		For i = 0 to UBound(Emails) - 1
+			Emails(i) = rsEmails.Fields(0).Value
+			rsEmails.MoveNext
+		Next
+		rsEmails.Close
+		Set rsEmails.ActiveConnection = Nothing
+		Set rsEmails = Nothing
+		GetAllEmails = Emails
+	End Function
+%>
+<%
+	Private Function GetUserEmail(uid)
+		Dim rsEmail, SQL, Email
+
+		Set rsEmail = Server.CreateObject("ADODB.Recordset")
+		rsEmail.ActiveConnection = cnPick
+		rsEmail.LockType = 1
+		rsEmail.CursorType = 0
+		rsEmail.CursorLocation = 3
+
+		SQL = "Select Email_Address From pkmUsers Where UID = '" & uid & "'"
+		rsEmail.Open SQL
+		Email = rsEmail.Fields(0).Value
+		rsEmail.Close
+		Set rsEmail.ActiveConnection = Nothing
+		Set rsEmail = Nothing
+		GetUserEmail = Email
+	End Function
+%>
+<%
+	Private Function SendEmail(sender_email,recipients,subject,body)
+		Dim objMail, i, Success
+		Success = True
+		Err.Clear
+	    	Set objMail = Server.CreateObject("JMail.SMTPMail")
+    		If Err.Number <> 0 Then
+			Success = False
+   		Else
+	      		objMail.ServerAddress = "mail.gtmsportswear.com"
+			Response.Write "Email sent to:<br>"
+			For i = 0 to UBound(recipients) - 1
+	  			objMail.AddRecipient recipients(i)
+				Response.Write (i+1) & ": " & recipients(i) & "<br>"
+			Next
+  			objMail.Sender = sender_email
+  			objMail.Subject = "" & subject
+  			objMail.Body = "" & body
+  			objMail.Execute
+		End If
+		Set objMail = Nothing
+		SendEmail = Success
+	End Function 
+%>
+<%
+	Private Function StandingsForWeek(Week)
+		Dim rsResults, SQL, FI(), Last_Name(), Wins(), Results(3), Numgames, i
+		Set rsResults = Server.CreateObject("ADODB.Recordset")
+		rsResults.ActiveConnection = cnPick
+		rsResults.LockType = 1
+		rsResults.CursorType = 0
+		rsResults.CursorLocation = 3
+		SQL = "Select First_Name, Last_Name, Wins From pkmUsers, pkmResults Where Week = '" & Week & _
+			"' And pkmUsers.UID = pkmResults.UID Order By Wins Desc"
+		rsResults.Open SQL
+		Numgames = rsResults.RecordCount
+		If Numgames > 0 Then
+			i = 0
+			rsResults.MoveFirst
+			Redim FI(Numgames)
+			Redim Last_Name(Numgames)
+			Redim Wins(Numgames)
+			Do While Not rsResults.EOF
+				FI(i) = Left(rsResults.fields(0).Value, 1)
+				Last_Name(i) = rsResults.Fields(1).Value
+				Wins(i) = rsResults.Fields(2).Value
+				rsResults.MoveNext
+				i = i + 1
+			Loop
+		Else
+			Redim FI(1)
+			FI(0) = "0"			
+		End If
+		Results(0) = FI
+		Results(1) = Last_Name
+		Results(2) = Wins
+		StandingsForWeek = Results
+		rsResults.Close
+	End Function
+%>
+<%
+	Private Function GetTotalStandings()
+		Dim rsResults, SQL, FI(), Last_Name(), Wins(), Results(4), TotalGames(), Numgames, i, WP
+		Set rsResults = Server.CreateObject("ADODB.Recordset")
+		rsResults.ActiveConnection = cnPick
+		rsResults.LockType = 1
+		rsResults.CursorType = 0
+		rsResults.CursorLocation = 3
+		SQL = "Select First_Name, Last_Name, Sum(Wins) as Total, pkmUsers.UID From pkmUsers, pkmResults Where pkmUsers.UID = pkmResults.UID Group By pkmResults.UID Order By Total Desc"
+		rsResults.Open SQL
+		Numgames = rsResults.RecordCount
+		If Numgames > 0 Then
+			i = 0
+			rsResults.MoveFirst
+			Redim FI(Numgames)
+			Redim Last_Name(Numgames)
+			Redim Wins(Numgames)
+			Redim TotalGames(Numgames)
+			Do While Not rsResults.EOF
+				FI(i) = Left(rsResults.fields(0).Value, 1)
+				Last_Name(i) = rsResults.Fields(1).Value
+				Wins(i) = rsResults.Fields(2).Value
+				WP = Mid(CStr(Wins(i)/GetTotalGames(rsResults.Fields(3).Value)),2,4)
+				If Len(WP) = 2 Then
+					WP = WP & "00"
+				ElseIf Len(WP) = 3 Then
+					WP = WP & "0"
+				End If
+				TotalGames(i) = WP
+				rsResults.MoveNext
+				i = i + 1
+			Loop
+		Else
+			Redim FI(1)
+			FI(0) = "0"			
+		End If
+		Results(0) = FI
+		Results(1) = Last_Name
+		Results(2) = Wins
+		Results(3) = TotalGames
+		GetTotalStandings = Results
+		rsResults.Close
+	End Function
+%>
+<%
+	Private Function GetTotalGames(uid)
+		Dim rs, total
+		Set rs = Server.CreateObject("ADODB.Recordset")
+		rs.ActiveConnection = cnPick
+		rs.LockType = 1
+		rs.CursorType = 0
+		rs.CursorLocation = 3
+		SQL = "Select * From pkmResults Where UID = '" & uid & "'"
+		rs.Open SQL
+		total = rs.RecordCount * 12
+		rs.Close
+		set rs.activeconnection = nothing
+		GetTotalGames = total
+	End Function
+%>
+<%
+	Private Function GetTotalStandingsForWeeks(StartWeek,EndWeek)
+		Dim rsResults, SQL, FI(), Last_Name(), Wins(), Results(3), Numgames, i
+		Set rsResults = Server.CreateObject("ADODB.Recordset")
+		rsResults.ActiveConnection = cnPick
+		rsResults.LockType = 1
+		rsResults.CursorType = 0
+		rsResults.CursorLocation = 3
+		SQL = "Select First_Name, Last_Name, Sum(Wins) as Total From pkmUsers, pkmResults " & _
+			"Where pkmUsers.UID = pkmResults.UID AND Week >= " & StartWeek & " AND Week <= " & EndWeek & _
+			" Group By pkmResults.UID Order By Total Desc"
+		rsResults.Open SQL
+		Numgames = rsResults.RecordCount
+		If Numgames > 0 Then
+			i = 0
+			rsResults.MoveFirst
+			Redim FI(Numgames)
+			Redim Last_Name(Numgames)
+			Redim Wins(Numgames)
+			Do While Not rsResults.EOF
+				FI(i) = Left(rsResults.fields(0).Value, 1)
+				Last_Name(i) = rsResults.Fields(1).Value
+				Wins(i) = rsResults.Fields(2).Value
+				rsResults.MoveNext
+				i = i + 1
+			Loop
+		Else
+			Redim FI(1)
+			FI(0) = "0"			
+		End If
+		Results(0) = FI
+		Results(1) = Last_Name
+		Results(2) = Wins
+		GetTotalStandingsForWeeks = Results
+		rsResults.Close
+	End Function
+%>
