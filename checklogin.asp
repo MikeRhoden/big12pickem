@@ -33,7 +33,7 @@
 	<a href="index.htm">Try again.</a>
 <%
 	Else
-		Response.Redirect("games_2017.asp?uid=" & uid)
+		Response.Redirect("games_2018.asp?uid=" & uid)
 	End If
 %>
 </center>

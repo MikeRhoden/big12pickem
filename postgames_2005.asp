@@ -1,8 +1,8 @@
 <%@ language=vbscript %>
-<!-- #include file="funcs.asp" --->
+<!-- #include file="funcs.asp" -->
 <%
 Dim cnPick, Picks(20), Values(20), Deadlines(20), Weights(26), uid, num_games
-CONST constYear=2017
+CONST constYear=2018
 
 Private Sub LoadPicks()
 	Dim i, fieldName
@@ -25,21 +25,20 @@ sub setDeadlines()
 		if not rs.eof then deadlines(i-1)=nz(rs("k").value,"")
 	next	
 end sub
+
 connect
 num_games = 20
 uid = Request.QueryString("uid")
 setDeadlines
 
-
-Connect
 LoadPicks
 if uid="00189" then
-%><p>uid: <%=uid%></p><%
-%><p>Picks: <%=join(Picks,"<br>")%></p><%
-%><p>Values: <%=join(Values,"<br>")%></p><%
-%><p>week: <%=CInt(Request.Form("week"))%></p><%
-%><p>constYear: <%=constYear%></p><%
-%><p>Deadlines: <%=join(Deadlines,"<br>")%></p><%
+	%><p>uid: <%=uid%></p><%
+	%><p>Picks: <%=join(Picks,"<br>")%></p><%
+	%><p>Values: <%=join(Values,"<br>")%></p><%
+	%><p>week: <%=CInt(Request.Form("week"))%></p><%
+	%><p>constYear: <%=constYear%></p><%
+	%><p>Deadlines: <%=join(Deadlines,"<br>")%></p><%
 end if
 
 'DeletePicks uid, CInt(Request.Form("week")),constYear

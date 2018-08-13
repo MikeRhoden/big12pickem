@@ -17,7 +17,7 @@
 		Last_Name = Request.Form("Last_Name")
 		password = Request.Form("password")
 		uid=InsertUser(password, First_Name, Last_Name, email)
-		Response.Redirect("games_2017.asp?uid=" & uid)'bowl_games_2010
+		Response.Redirect("games_2018.asp?uid=" & uid)'bowl_games_2010
 	End If
 	Disconnect
 %>

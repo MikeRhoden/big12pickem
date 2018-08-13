@@ -152,9 +152,8 @@ Class cGames
 		Game_Count = ubound(games)
 	End Property
 
-	Public Sub Initialize(wk,y)
+	Public Sub Initialize(wk,yr)
 		Dim i, SQL
-		yr = y
 		SQL = "Select * From pkmGames Where Week = '" & wk & "' AND Year = '" & yr & "'"
 		rs.Open SQL
 		if rs.recordcount > 0 then
@@ -178,7 +177,11 @@ Class cGames
 		'sql="select min(dtiKickOff) def from pkmGames where Week = '" & wk & "' AND Year = '" & yr & "'"
 		'rs.open sql
 		'if rs.recordcount > 0 then
-		defaultDeadline=(new cDeadline).GetDeadlineForWeek2017(wk)
+		if yr = 2018 then
+			defaultDeadline=(new cDeadline).GetDeadlineForWeek2018(wk)
+		else
+			defaultDeadline=(new cDeadline).GetDeadlineForWeek2017(wk)
+		end if
 		'else
 		''	defaultDeadline = ""
 		'end if

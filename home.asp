@@ -1,5 +1,4 @@
 <%@ language=vbscript%>
-<!-- displayresults.asp -->
 <!-- #include file="funcs.asp" -->
 <!-- #include file="cDeadline.asp" -->
 <%
@@ -8,7 +7,7 @@ dim totalResults, tLoop, tObj
 uid=Request.QueryString("uid")
 connect
 function pastDeadlineForWeek(week)
-	pastDeadlineForWeek = now() > (new cDeadline).GetDeadlineForWeek2017(week)
+	pastDeadlineForWeek = now() > (new cDeadline).GetDeadlineForWeek2018(week)
 end function
 %>
 
@@ -74,7 +73,58 @@ end function
 		</td>
 	</tr>
 
-   	<tr><td colspan="2"><font size="+3"><b>2017 Results</b></font><!--<div style="float:right"><font size="+1"><b><a href="rg13.asp">2012-13 Bowl Results</a></b></font></div>--></td></tr>
+	<!-- 2018 -->
+   	<tr><td colspan="2"><font size="+3"><b>2018 Results</b></font></td></tr>
+	<tr><td colspan="2"><table width="100%"><tr>
+	  <td width="33%" align=center valign="top">
+			<table border="1" cellpadding="3" cellspacing="0" class="results">
+				<tr><th width="40">Week</th><th width="98">Winners</th><th width="44">View</th></tr>
+				<% 
+				dim currentWeek
+				for currentWeek = 1 to 7
+ 					if pastDeadlineForWeek(currentWeek) then%>	
+					<tr>
+						<td valign="top"><%=currentWeek%></td>
+						<td valign="top"></td>
+						<td align="center" valign="top"><a href="results_grid_2018.asp?w=<%=currentWeek%>1&t=1">Results</a></td>
+					</tr>		
+					<%end if%>
+				<%
+				next
+				%>
+			</table>
+		</td>
+		<td width="33%" align=center valign="top">
+			<%if pastDeadlineForWeek(8) then%>
+			<table border="1" cellpadding="3" cellspacing="0" class="results">
+				<tr><th width="40">Week</th><th width="98">Winners</th><th width="44">View</th></tr>
+				for currentWeek = 8 to 14
+ 					if pastDeadlineForWeek(currentWeek) then%>	
+					<tr>
+						<td valign="top"><%=currentWeek%></td>
+						<td valign="top"></td>
+						<td align="center" valign="top"><a href="results_grid_2018.asp?w=<%=currentWeek%>1&t=1">Results</a></td>
+					</tr>		
+					<%end if%>
+				<%
+				next
+				%>
+			</table>
+			<%end if%>
+		</td>
+		<td>
+			<table border="1" cellpadding="3" cellspacing="0" class="results"><tr><th>Name</th><th>Mandatory<br>Correct</th><th>Average<br>Score</th><th>Weeks<br>Played</th><th>Last Week<br />Played</th</tr>
+<%
+	
+	totalResults=qryTotalsV2("2018")
+	for tLoop=0 to ubound(totalResults) - 1
+		set tObj=totalResults(tLoop)
+%>
+	<tr class="total-results"><td style="white-space:nowrap"><%=tObj("lname")%>, <%=left(tObj("fname"),1)%></td><td><%=tObj("mandatoryCorrect")%></td><td><%=round(round(tObj("average"),2))%></td><td><%=tObj("weeksPlayed")%></td><td><%=tObj("lastWeekPlayed")%></td><!--<td><%=tObj("total")%></td><td><%=round(tObj("average"),2)%></td>--></tr>
+
+	<!-- 2017 -->
+
+	<tr><td colspan="2"><font size="+3"><b>2017 Results</b></font><!--<div style="float:right"><font size="+1"><b><a href="rg13.asp">2012-13 Bowl Results</a></b></font></div>--></td></tr>
 
 	<tr><td colspan="2"><table width="100%"><tr>
 	  <td width="33%" align=center valign="top">
