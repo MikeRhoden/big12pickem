@@ -9,7 +9,7 @@
 	if uid<>"00027" and uid<>"00060" and uid<>"00077" then response.redirect("home.asp")
 
 	wk = request.QueryString("w")
-	yr = 2017
+	yr = 2018
 
 	If request.form("edit") = "y" then
 		UpdateGame

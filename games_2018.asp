@@ -5,7 +5,7 @@
 <!-- #include file="funcs.asp" -->
 <%
 Dim u, g, uid, toolate, cnPick,  i, remaining, max_credits, week, yr
-Dim games(20), vis(20), visitors(20), hos(20), homes(20), favs(20), lines(20), mins(20), maxs(20)
+'Dim games(20), vis(20), visitors(20), hos(20), homes(20), favs(20), lines(20), mins(20), maxs(20)
 
 Sub CalcRemaining()
 	Dim running, i
@@ -101,9 +101,11 @@ connect
 Set u = new cUser
 yr = 2018
 week = qryMaxWeek(yr)
+
 if week=0 then
 	%>error ... week 0<%response.End()
 end if
+
 u.Initialize Request.QueryString("uid"),week, yr
 max_credits = 200
 uid = Request.QueryString("uid")
@@ -168,10 +170,6 @@ CalcRemaining
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body bgcolor="#FFFFFF">
-<%
-	'Response.Write "Contest will start with games on the weekend of Sept. 11<P><a href='home.asp'>HOME</a>"
-	'Response.End
-%>
 <form name="games" method=post action="postgames_2005.asp?uid=<%=uid%>" onSubmit="return verify(this)">
 <input type="hidden" name="week" value="<%=week%>">
 <table border=0 width=100%>
@@ -204,11 +202,8 @@ CalcRemaining
 		<th>Matchup & Spread&nbsp;&nbsp;</th>
 		<th align=center>Wager</th>
 	</tr>
-<% For i = 0 to 4
-''	Dim picks, values, games(20), vis(20), visitors(20), hos(20), homes(20), favs(20), lines(20), mins(20), maxs(20)
- %>
-		<%'= WriteGame(games(i), vis(i), visitors(i), hos(i), homes(i), favs(i), lines(i), mins(i), maxs(i)) %>
-		<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
+<% For i = 0 to 4 %>
+<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
 <% Next %>
 	</table></td>
 	<td bgcolor="#ffffff"><img src="http://www.clker.com/cliparts/7/f/4/5/1368296348666168335american-football-ball-icon-hi.png" width="20"></td>
@@ -218,10 +213,8 @@ CalcRemaining
 		<th>Matchup & Spread&nbsp;&nbsp;</th>
 		<th align=center>Wager</th>
 	</tr>
-<% For i = 5 to 9
-''	Dim picks, values, games(20), vis(20), visitors(20), hos(20), homes(20), favs(20), lines(20), mins(20), maxs(20)
- %>
-		<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
+<% For i = 5 to 9 %>
+<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
 <% Next %>
 	</table></td>
 	<td bgcolor="#ffffff"><img src="http://www.clker.com/cliparts/7/f/4/5/1368296348666168335american-football-ball-icon-hi.png" width="20"></td>
@@ -231,10 +224,8 @@ CalcRemaining
 		<th>Matchup & Spread&nbsp;&nbsp;</th>
 		<th align=center>Wager</th>
 	</tr>
-<% For i = 10 to 14
-''	Dim picks, values, games(20), vis(20), visitors(20), hos(20), homes(20), favs(20), lines(20), mins(20), maxs(20)
- %>
-		<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
+<% For i = 10 to 14 %>
+<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
 <% Next %>
 	</table></td>
 	<td bgcolor="#ffffff"><img src="http://www.clker.com/cliparts/7/f/4/5/1368296348666168335american-football-ball-icon-hi.png" width="20"></td>
@@ -244,10 +235,8 @@ CalcRemaining
 		<th>Matchup & Spread&nbsp;&nbsp;</th>
 		<th align=center>Wager</th>
 	</tr>
-<% For i = 15 to 19
-''	Dim picks, values, games(20), vis(20), visitors(20), hos(20), homes(20), favs(20), lines(20), mins(20), maxs(20)
- %>
-		<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
+<% For i = 15 to 19 %>
+<%= WriteGame(g.GetGame(i), g.GetVis(i), g.GetVisitor(i), g.GetHo(i), g.GetHome(i), g.GetFav(i), g.GetLine(i), g.GetMin(i), g.GetMax(i), g.GetNote(i), g.getDeadline(i)) %>
 <% Next %>
 	</table><br><br></td>
 	</tr>

@@ -80,7 +80,7 @@ end function
 				<tr><th width="40">Week</th><th width="98">Winners</th><th width="44">View</th></tr>
 					<td valign="top">1</td>
 					<td valign="top"></td>
-					   <td align="center" valign="top"><a href="results_grid_2018.asp?w=2&t=1">Results</a></td>
+					   <td align="center" valign="top"><a href="results_grid_2018.asp?w=1&t=1">Results</a></td>
 				</tr>		
 			</table>
 		</td>
